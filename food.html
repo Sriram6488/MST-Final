@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foods of Goa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        /* Task Bar Styles */
+        nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 100;
+          background-color:  #44ddf8;
+          transition: background-color 0.3s ease;
+      }
+  
+      nav.active {
+          background-color: rgba(195, 12, 12, 0.7);
+      }
+  
+      .nav-links {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px 0;
+          list-style: none;
+          margin: 0;
+      }
+  
+      .nav-links li {
+          margin: 0 30px;
+      }
+  
+      .nav-links a {
+          color: rgb(13, 12, 12);
+          text-decoration: none;
+          font-weight: 500;
+          position: relative;
+          padding-bottom: 5px;
+          transition: color 0.3s ease;
+      }
+  
+      .nav-links a::after {
+          content: '';
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          width: 100%;
+          height: 2px;
+          background-color: #ef134e;
+          transform: translateX(-50%) scaleX(0);
+          transform-origin: center;
+          transition: transform 0.3s ease-in-out;
+      }
+  
+  
+  
+      .nav-links a:hover::after {
+          transform: translateX(-50%) scaleX(1);
+      }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto; /* Added top margin to separate from task bar */
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .food-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 80px; /* Increased gap between image and text */
+            margin-bottom: 40px; /* Increased margin below each item */
+            padding: 20px; /* Added padding inside each food item */
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .food-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            border-radius: 6px; /* Match image border radius to the container */
+        }
+        .food-details {
+            padding: 20px;
+        }
+        .food-details h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .food-details p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .food-details a {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .food-details a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .food-item {
+                grid-template-columns: 1fr;
+            }
+            .food-item img {
+                max-height: 300px;
+                border-radius: 6px 6px 0 0; /* Adjust image border radius for single column */
+            }
+        }
+    </style>
+</head>
+<body>
+  <header class="hero">
+    <nav id="navbar">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="goa.html">Home</a></li>
+            <li><a href="bookings.html">Bookings</a></li>
+            <li><a href="food.html">Foods</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+<br><br><br><br>
+    <div class="container">
+        <h1>Delicious Foods in Goa</h1>
+        <br>
+        <br>
+        <div class="food-item">
+            <img src="https://images7.alphacoders.com/326/thumbbig-326995.webp" alt="Pork Vindaloo">
+            <div class="food-details">
+                <h2>Pork Vindaloo</h2>
+                <p>Derived from the Portuguese words for garlic (alho) and wine (vinho), this spicy Goan curry originated from a Portuguese sailor’s dish made with pork, garlic, and wine. Goan cooks substituted palm vinegar and added local spices.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+        <br>
+        <div class="food-item">
+            <img src="https://images7.alphacoders.com/999/thumb-1920-999074.jpg" alt="Prawn Balchão">
+            <div class="food-details">
+                <h2>Prawn Balchão</h2>
+                <p>A spicy seafood dish made by pickling prawns in vinegar and spices. It’s a perfect blend of tangy, spicy, and sweet, served best with rice or bread.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+        <br>
+        <div class="food-item">
+            <img src="https://images7.alphacoders.com/138/thumbbig-1383386.webp" alt="Sanna">
+            <div class="food-details">
+                <h2>Sanna</h2>
+                <p>Soft, fluffy steamed rice cakes, often enjoyed with pork dishes or chicken curry. Sannas are similar to idlis but are made with coconut and fermented with toddy.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+        <br>
+        <div class="food-item">
+            <img src="https://images8.alphacoders.com/893/thumbbig-893482.webp" alt="Fish Curry Rice">
+            <div class="food-details">
+                <h2>Goan Fish Curry Rice</h2>
+                <p>A staple meal in every Goan household, made with fresh fish (usually mackerel or kingfish), coconut, and kokum. Served with rice, it’s the comfort food of Goa.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+        <br>
+        <div class="food-item">
+            <img src="https://tse1.mm.bing.net/th?id=OIP.2iBrDdohspdktCf2FzrXsAHaEc&pid=Api&P=0&h=180" alt="Bebinca">
+            <div class="food-details">
+                <h2>Bebinca</h2>
+                <p>A classic Goan dessert with multiple layers made from coconut milk, sugar, egg yolks, and flour. It’s baked layer by layer and is rich in taste and tradition.</p>
+                <a href="#">Book Now</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
