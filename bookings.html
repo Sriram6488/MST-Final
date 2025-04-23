@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goa Hotel Booking</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #cf2727;
+        }
+        
+        nav {
+            position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 100;
+          background-color:  #44ddf8;
+          transition: background-color 0.3s ease;
+        }
+    
+        nav.active {
+            background-color: rgba(195, 12, 12, 0.7);
+        }
+    
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            list-style: none;
+            margin: 0;
+        }
+    
+        .nav-links li {
+            margin: 0 30px;
+        }
+    
+        .nav-links a {
+            color: rgb(13, 12, 12);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+    
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ef134e;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease-in-out;
+        }
+    
+    
+    
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+    
+        .booking-container {
+            margin-top: 100px; /* Ensures space below fixed nav */
+        }
+
+        .header {
+            max-width: 1200px;
+            margin: 20px auto; /* Added top margin to separate from task bar */
+            padding: 10px;
+            text-align: center;
+
+        }
+
+        
+
+        .search-section {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="date"],
+        .input-group select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .search-button-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .search-button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #1e7e34;
+        }
+
+        .results-section {
+            padding:10px 160px 70px 160px;
+        }
+        .results-section .h1{
+            text-align: center;  
+        padding-left: 50px;      }
+        .hotel-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .hotel-image {
+            width: 200px;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .hotel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hotel-details {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .hotel-details h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .hotel-details p {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .hotel-pricing {
+            padding: 15px;
+            text-align: right;
+            min-width: 120px;
+        }
+
+        .hotel-pricing .price {
+            font-size: 20px;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .hotel-pricing .book-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .hotel-pricing .book-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Basic filter section (you'd need JavaScript for actual filtering) */
+        .filter-section {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-section label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .filter-section select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <nav id="navbar">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="bookings.html">Bookings</a></li>
+                <li><a href="food.html">Foods</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    <div class="booking-container">
+        <div class="header">
+            <h1>Find Hotels in Goa</h1>
+        </div>
+
+       
+        <div class="filter-section">
+            <label for="sort-by">Sort By:</label>
+            <select id="sort-by">
+                <option value="popularity">Popularity</option>
+                <option value="price-low-high">Price (Low to High)</option>
+                <option value="price-high-low">Price (High to Low)</option>
+                <option value="rating">Guest Rating</option>
+            </select>
+        </div>
+
+        <div class="results-section">
+            <h2>Available Hotels</h2>
+
+            <div class="hotel-card" data-price="4500">
+                <div class="hotel-image">
+                    <img src="https://i.pinimg.com/originals/52/74/b6/5274b61153a595c477a6d7580c5ad3a7.jpg" alt="Luxury Beach Resort">
+                </div>
+                <div class="hotel-details">
+                    <h3>Luxury Beach Resort</h3>
+                    <p>Calangute Beach, Goa</p>
+                    <p>Free Wi-Fi, Swimming Pool, Spa</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 4,500</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="1800">
+                <div class="hotel-image">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.5BqcP4FZbXJHyF-DNo9EwAHaEH&pid=Api&P=0&h=180" alt="Cozy Guest House">
+                </div>
+                <div class="hotel-details">
+                    <h3>Cozy Guest House</h3>
+                    <p>Anjuna, Goa</p>
+                    <p>Budget-friendly, Close to Market</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 1,800</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="3200">
+                <div class="hotel-image">
+                    <img src="https://www.tripsavvy.com/thmb/apmgMrILcGWhVnts2kxOEIJRAMo=/750x0/filters:no_upscale():max_bytes(150000):strip_icc()/dwarka-58c69d113df78c353c6135d8.jpg" alt="Seaside Cottage">
+                </div>
+                <div class="hotel-details">
+                    <h3>Seaside Cottage</h3>
+                    <p>Palolem Beach, Goa</p>
+                    <p>Private Beach Access, Restaurant</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 3,200</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="5800">
+                <div class="hotel-image">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.oOsQopkRjtjtilAGwD_OFAHaFD&pid=Api&P=0&h=180" alt="Baywatch Resort">
+                </div>
+                <div class="hotel-details">
+                    <h3>Baywatch Resort</h3>
+                    <p>Colva Beach, Goa</p>
+                    <p>Large Pool, Multiple Dining Options</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 5,800</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="12500">
+                <div class="hotel-image">
+                    <img src="https://tse3.mm.bing.net/th?id=OIF.AnnSG63%2fzVBThgoYROwfEA&pid=Api&P=0&h=180" alt="The Leela Goa">
+                </div>
+                <div class="hotel-details">
+                    <h3>The Leela Goa</h3>
+                    <p>Mobor, Cavelossim, Goa</p>
+                    <p>Luxury Resort, Lagoon, Golf Course</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 12,500</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="7200">
+                <div class="hotel-image">
+        <img src="https://tse3.mm.bing.net/th?id=OIF.pO4eVk0OPLVi81NMdye3CQ&pid=Api&P=0&h=180" alt="Radisson Blu Resort Goa Cavelossim Beach">
+                </div>
+                <div class="hotel-details">
+                    <h3>Radisson Blu Resort Goa Cavelossim Beach</h3>
+                    <p>Cavelossim, Goa</p>
+                    <p>Modern Rooms, Beachfront Access</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 7,200</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="6100">
+                <div class="hotel-image">
+                    <img src="https://www.spagnuloandpartners.it/wp-content/uploads/architectural-project-baglioni-hotel-dubai-5-900x540.jpg" alt="Novotel Goa Resort & Spa">
+                </div>
+                <div class="hotel-details">
+                    <h3>Novotel Goa Resort & Spa</h3>
+                    <p>Candolim, Goa</p>
+                    <p>Family-friendly, Kids Club</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 6,100</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="8900">
+                <div class="hotel-image">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.67YDYraW-qI1c6EzJFIWLgHaEm&pid=Api&P=0&h=180" alt="Planet Hollywood Beach Resort Goa">
+                </div>
+                <div class="hotel-details">
+                    <h3>Planet Hollywood Beach Resort Goa</h3>
+                    <p>Utorda Beach, Goa</p>
+                    <p>Themed Resort, Entertainment</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 8,900</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="15200">
+                <div class="hotel-image">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.xmnbFlMXmGh1kgtUZsO8zAHaGc&pid=Api&P=0&h=180" alt="Taj Exotica Resort & Spa, Goa">
+                </div>
+                <div class="hotel-details">
+                    <h3>Taj Exotica Resort & Spa, Goa</h3>
+                    <p>Benaulim, Goa</p>
+                    <p>Mediterranean Architecture, Lush Gardens</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 15,200</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+            <div class="hotel-card" data-price="11000">
+                <div class="hotel-image">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.afy6h_lPmszxiwFPjY4CEgHaEo&pid=Api&P=0&h=180" alt="ITC Grand Goa, a Luxury Collection Resort & Spa">
+                </div>
+                <div class="hotel-details">
+                    <h3>ITC Grand Goa, a Luxury Collection Resort & Spa</h3>
+                    <p>Arossim, Goa</p>
+                    <p>Serene Beaches, Extensive Facilities</p>
+                </div>
+                <div class="hotel-pricing">
+                    <div class="price">₹ 11,000</div>
+                    <button class="book-button">Book Now</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sortBySelect = document.getElementById('sort-by');
+            const resultsSection = document.querySelector('.results-section');
+
+            sortBySelect.addEventListener('change', function() {
+                const sortByValue = this.value;
+                const hotelCards = Array.from(resultsSection.querySelectorAll('.hotel-card'));
+
+                hotelCards.sort(function(a, b) {
+                    const priceA = parseInt(a.dataset.price);
+                    const priceB = parseInt(b.dataset.price);
+
+                    if (sortByValue === 'price-low-high') {
+                        return priceA - priceB;
+                    } else if (sortByValue === 'price-high-low') {
+                        return priceB - priceA;
+                    } else {
+                        // Default to original order if other options are selected
+                        return 0;
+                    }
+                });
+
+                // Remove existing cards
+                hotelCards.forEach(card => resultsSection.removeChild(card));
+
+                // Append the sorted cards
+                hotelCards.forEach(card => resultsSection.appendChild(card));
+            });
+        });
+    </script>
+</body>
+</html>
